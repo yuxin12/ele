@@ -12,13 +12,14 @@
     <el-form-item label="密码" label-width="70px" prop="pass" class="login_d_pass">
       <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" class="login_d_pass_input"></el-input>
     </el-form-item>
-    <el-form-item>
+    <el-form-item class="login_d_button">
       <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
       <el-button @click="resetForm('ruleForm2')">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
 <script>
+  import axios from 'axios'
   export default {
     data() {
       var validatePass = (rule, value, callback) => {
@@ -65,7 +66,12 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+              axios.post("http://localhost:8081/login",{
+                  userName:this.ruleForm2.name,
+                  passWord:this.ruleForm2.pass
+              }).then(({data})=>{
+                console.log(data);
+              })
           } else {
             console.log('error submit!!');
             return false;
@@ -88,9 +94,17 @@
   }
   .login_d_form{
     height:400px;
-    width:500px;
+    width:440px;
+    padding:20px 30px;
     margin:100px auto;
-    border:1px #ccc solid;
+    box-shadow: 0px 0px 10px #ccc;
+  }
+  .login_d_button{
+   display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:150px
   }
   .login_d_name .login_d_name_input,.login_d_pass .login_d_pass_input {
     height:30px;
