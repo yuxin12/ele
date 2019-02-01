@@ -16,9 +16,11 @@
       <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
       <el-button @click="resetForm('ruleForm2')">重置</el-button>
     </el-form-item>
+
   </el-form>
 </template>
 <script>
+  import Vuex from 'vuex'
   import axios from 'axios'
   export default {
     data() {
@@ -62,24 +64,36 @@
         }
       };
     },
+    computed:{
+      ...Vuex.mapState({
+        "token":state=>state.Login.token,
+      })
+    },
     methods: {
+      ...Vuex.mapActions({
+        login:"Login/login"
+      }),
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
+          //如果正则验证成功
           if (valid) {
-              axios.post("http://localhost:8081/login",{
-                  userName:this.ruleForm2.name,
-                  passWord:this.ruleForm2.pass
-              }).then(({data})=>{
-                console.log(data);
-              })
+            this.login({userName:this.ruleForm2.name,passWord:this.ruleForm2.pass});
+            //清空输入框里面的内容
+            this.ruleForm2.name="";
+            this.ruleForm2.pass="";
           } else {
-            console.log('error submit!!');
+            //正则验证失败
             return false;
           }
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      }
+    },
+    watch:{
+      token(){
+       this.$router.push({name:'home'})
       }
     }
   }

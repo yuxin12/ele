@@ -6,7 +6,7 @@ function _connect(cb) {
   })
 }
 module.exports.find=function(coll,obj,cb) {
-  _connect(function (db) {
+  _connect(function (db){
     db.collection(coll).findOne(obj.where,cb);
   })
 }

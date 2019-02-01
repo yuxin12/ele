@@ -4,5 +4,8 @@ export default [
     path:"/login",
     name:"login",
     component:Login,
+    meta:{
+      needAuth:false
+    }
   }
 ]
