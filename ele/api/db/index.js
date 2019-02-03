@@ -10,4 +10,14 @@ module.exports.find=function(coll,obj,cb) {
     db.collection(coll).findOne(obj.where,cb);
   })
 }
+module.exports.insertOne=function (coll,obj,cb) {
+  _connect(function (db) {
+    db.collection(coll).insertOne(obj,cb)
+  })
+}
+module.exports.findOne=function (coll,obj,cb) {
+  _connect(function (db) {
+    db.collection(coll).find(obj).toArray(cb);
+  })
+}
 

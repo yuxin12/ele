@@ -12,27 +12,20 @@
     </el-form-item>
   </el-form>
   <el-table
-    :data="tableData"
+    :data="shopTypeList"
     style="width: 100%">
     <el-table-column
-      label="日期"
+      label="店铺类别名称"
       width="180">
       <template slot-scope="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        <span style="margin-left: 10px">{{ scope.row.shopTypeName }}</span>
       </template>
     </el-table-column>
     <el-table-column
-      label="姓名"
+      label="店铺类别图片"
       width="180">
       <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
-        </el-popover>
+        <img style="width:100px;height:100px" :src="'http://localhost:8081/'+scope.row.shopTypePic" alt="">
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -53,6 +46,7 @@
 </template>
 
 <script>
+  import Vuex from 'vuex'
   import AddShopType from './addShopType'
     export default {
       data() {
@@ -85,6 +79,14 @@
       components:{
         AddShopType
       },
+      created(){
+        this.$store.dispatch("Home/getShopTypeListActions")
+      },
+      computed:{
+        ...Vuex.mapState({
+          shopTypeList:state=>state.Home.shopTypeList
+        })
+      },
       methods: {
         onSubmit() {
           console.log('submit!');
@@ -96,7 +98,6 @@
           //添加店铺类别
           //第一步，弹出框出现
           this.dialogFormVisible=true
-
         },
         handleEdit(index, row) {
           console.log(index, row);

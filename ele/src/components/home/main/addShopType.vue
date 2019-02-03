@@ -33,20 +33,10 @@
     export default {
         name: "add-shop-type",
         props:["dialogFormVisible","changedialogFormVisible"],
-      created(){
-        console.log(this.$store)
-      },
         data(){
           return {
             form: {
               name: '',
-              region: '',
-              date1: '',
-              date2: '',
-              delivery: false,
-              type: [],
-              resource: '',
-              desc: ''
             },
             fileList:[],
             formLabelWidth: '120px'
@@ -62,16 +52,11 @@
         addShopType(){
           //弹框隐藏
           this.changedialogFormVisible();
-             var newForm=new FormData()
-          console.log(newForm,1);
-          // console.log(this.$refs.shopTypeName.$refs.input.value)
-            newForm.set("shopTypeName",this.$refs.shopTypeName.$refs.input.value)
-            newForm.set("shopTypePic",document.querySelector(".el-upload .el-upload__input").files[0])
-          console.log(newForm.shopTypeName,2)
+          //上传数据
+          var newForm=new FormData()
+          newForm.set("shopTypeName",this.$refs.shopTypeName.$refs.input.value)
+          newForm.set("shopTypePic",document.querySelector(".el-upload .el-upload__input").files[0])
           this.addShopTypeMutation(newForm)
-
-            // console.log(document.querySelector(".el-upload .el-upload__input").files[0],"this.$ref.upload")
-
           }
       }
     }
